@@ -18,8 +18,8 @@ def home_view(request):
                 'dietary_restrictions': dietary_restrictions,
                 'favorite_foods': [food.strip() for food in favorite_foods],
             }
-            return render(request, 'home.html', context)
+            return render(request, 'index.html', context)
     else:
         form = GroceryInputForm()
 
-    return render(request, 'home.html', {'form': form})
+    return render(request, 'index.html', {'form': form})

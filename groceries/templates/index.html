@@ -1,0 +1,28 @@
+<!-- groceries/templates/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Input Form</title>
+</head>
+
+<body>
+    <h1>Grocery Input Form</h1>
+
+    {% if submitted %}
+    <h2>Submitted Data</h2>
+    <p><strong>Budget:</strong> {{ budget }}</p>
+    <p><strong>Dietary Restrictions:</strong> {{ dietary_restrictions }}</p>
+    <p><strong>Favorite Foods:</strong> {{ favorite_foods|join:", " }}</p>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+
+</html>
