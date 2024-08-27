@@ -1,4 +1,3 @@
-<!-- groceries/templates/home.html -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,23 +5,373 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grocery Input Form</title>
+
+    <style>
+        /* Apply font style and background to the entire page */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Style the container that holds the form */
+        .container {
+            background-color: #fff;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        /* Style the main heading of the form */
+        h1 {
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Style the form itself */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Style all text inputs, number inputs, textareas, and select dropdowns */
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            padding: 0.75rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            width: 100%;
+            margin-bottom: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        /* Style the placeholder text inside inputs and textareas */
+        input::placeholder,
+        textarea::placeholder {
+            color: #999;
+            font-style: italic;
+        }
+
+        /* Change the border color when an input or textarea is focused */
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        label {
+            font-size: 1.0rem;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+            color: #555;
+            text-align: left;
+            width: 100%;
+            display: block;
+            letter-spacing: 0.5px;
+        }
+
+        /* Style the submit button */
+        button {
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        /* Change the button's background color when hovered */
+        button:hover {
+            background-color: #388e3c;
+        }
+
+        /* Style the section that displays submitted data */
+        .submitted-data {
+            margin-top: 2rem;
+            text-align: left;
+            display: block; /* Set to block for testing styling */
+        }
+
+        .submitted-data h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #4CAF50;
+        }
+
+        .submitted-data p,
+        .submitted-data ul {
+            margin: 0.5rem 0;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .submitted-data ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .submitted-data ul li {
+            padding: 0.5rem 0;
+        }
+
+        /* Sample styling for placeholder text */
+        .placeholder {
+            color: #888;
+            font-style: italic;
+        }
+    </style>
+
+    <script>
+        function submitForm(event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+
+            // Get the form data
+            const budget = document.querySelector('input[name="budget"]').value;
+            const dietaryRestrictions = document.querySelector('input[name="dietary_restrictions"]').value;
+            const favoriteFoods = document.querySelector('input[name="favorite_foods"]').value;
+
+            // Simulate the API response (replace with real API call)
+            const recipes = ["Spaghetti with Tomato Basil Sauce", "Vegan Tacos with Avocado", "Gluten-Free Pancakes"];
+            const groceryList = ["1 lb Spaghetti", "2 Tomatoes", "1 bunch Fresh Basil", "4 Avocados", "Gluten-Free Flour"];
+
+            // Display the results
+            document.querySelector('.submitted-data .recipes-list').innerHTML = recipes.map(recipe => `<li>${recipe}</li>`).join('');
+            document.querySelector('.submitted-data .grocery-list').innerHTML = groceryList.map(item => `<li>${item}</li>`).join('');
+            
+            // Show the submitted data and results
+            document.querySelector('.submitted-data').style.display = 'block';
+
+            // Scroll to the results section
+            document.querySelector('.submitted-data').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
 </head>
 
 <body>
-    <h1>Grocery Input Form</h1>
+    <div class="container">
+        <h1>Grocery AI Assistant</h1>
 
-    {% if submitted %}
-    <h2>Submitted Data</h2>
-    <p><strong>Budget:</strong> {{ budget }}</p>
-    <p><strong>Dietary Restrictions:</strong> {{ dietary_restrictions }}</p>
-    <p><strong>Favorite Foods:</strong> {{ favorite_foods|join:", " }}</p>
-    {% endif %}
+        <form onsubmit="submitForm(event)">
+            <label for="budget">Budget</label>
+            <input type="number" id="budget" name="budget" placeholder="Enter your budget for groceries">
+            
+            <label for="dietary_restrictions">Dietary Restrictions</label>
+            <input type="text" id="dietary_restrictions" name="dietary_restrictions" placeholder="vegan, gluten-free">
+            
+            <label for="favorite_foods">Favorite Foods</label>
+            <input type="text" id="favorite_foods" name="favorite_foods" placeholder="List your favorite foods, separated by commas">
+            
+            <button type="submit">Submit</button>
+        </form>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
-    </form>
+        <div class="submitted-data">
+            <h2>Recommended Recipes:</h2>
+            <ul class="recipes-list">
+                <li class="placeholder">Sample Recipe 1: Spaghetti with Tomato Basil Sauce</li>
+                <li class="placeholder">Sample Recipe 2: Vegan Tacos with Avocado</li>
+                <li class="placeholder">Sample Recipe 3: Gluten-Free Pancakes</li>
+            </ul>
+
+            <h2>Grocery List:</h2>
+            <ul class="grocery-list">
+                <li class="placeholder">1 lb Spaghetti</li>
+                <li class="placeholder">2 Tomatoes</li>
+                <li class="placeholder">1 bunch Fresh Basil</li>
+                <li class="placeholder">4 Avocados</li>
+                <li class="placeholder">Gluten-Free Flour</li>
+            </ul>
+        </div>
+    </div>
 </body>
 
 </html>
+
+<!-- groceries/templates/home.html -->
+<!--
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Input Form</title>
+
+    <style>
+        /* Apply font style and background to the entire page */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif; /* Set a modern, clean font for the text */
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* Set a diagonal gradient background color from light to soft blue-gray */
+            margin: 0; /* Remove default margin around the body */
+            padding: 0; /* Remove default padding around the body */
+            display: flex; /* Use flexbox layout to align items */
+            justify-content: center; /* Center the container horizontally */
+            align-items: center; /* Center the container vertically */
+            height: 100vh; /* Set the height to fill the entire viewport */
+        }
+
+        /* Style the container that holds the form */
+        .container {
+            background-color: #fff; /* Set the background color of the container to white */
+            padding: 3rem; /* Add padding inside the container for spacing */
+            border-radius: 12px; /* Round the corners of the container */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Apply a subtle shadow for depth, with a slight blur */
+            width: 100%; /* Allow the container to be responsive, filling available width */
+            max-width: 500px; /* Set a maximum width to prevent the container from becoming too wide */
+            text-align: center; /* Center align text within the container */
+        }
+
+        /* Style the main heading of the form */
+        h1 {
+            color: #333; /* Set the text color to dark gray for better readability */
+            font-size: 1.8rem; /* Set the font size to make the heading stand out */
+            margin-bottom: 1.5rem; /* Add space below the heading */
+            font-weight: 600; /* Make the text bold */
+        }
+
+        /* Style the form itself */
+        form {
+            display: flex; /* Use flexbox layout for form elements */
+            flex-direction: column; /* Arrange form elements in a column (stacked vertically) */
+            align-items: center; /* Center the form elements horizontally */
+        }
+
+        /* Style all text inputs, number inputs, textareas, and select dropdowns */
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            padding: 0.75rem; /* Add padding inside inputs for spacing */
+            font-size: 1rem; /* Set the font size to make text readable */
+            border-radius: 8px; /* Round the corners of the inputs */
+            border: 1px solid #ced4da; /* Set a light gray border around the inputs */
+            width: 100%; /* Make inputs fill the available width */
+            margin-bottom: 1rem; /* Add space below each input */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            transition: border-color 0.2s; /* Smoothly transition border color changes over 0.2 seconds */
+        }
+
+        /* Style the placeholder text inside inputs and textareas */
+        input::placeholder,
+        textarea::placeholder {
+            color: #999; /* Set the placeholder text color to light gray */
+            font-style: italic; /* Display the placeholder text in italic */
+        }
+
+        /* Change the border color when an input or textarea is focused */
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #4CAF50; /* Change the border color to green when focused */
+            outline: none; /* Remove the default outline on focus */
+        }
+
+        label {
+            font-size: 1.0rem; /* Slightly increase the font size for better readability */
+            margin-bottom: 0.25rem; /* Add minimal space below each label */
+            font-weight: 500; /* Make the label text bold */
+            color: #555; /* Use a medium gray color for a soft look */
+            text-align: left; /* Align the label text to the left */
+            width: 100%; /* Ensure the label takes up the full width available */
+            display: block; /* Make the label a block-level element to align with inputs */
+            letter-spacing: 0.5px; /* Add a bit of letter spacing for a cleaner look */
+        }
+
+        /* Style the submit button */
+        button {
+            padding: 0.75rem 2rem; /* Add padding inside the button for spacing */
+            font-size: 1rem; /* Set the font size of the button text */
+            background-color: #4CAF50; /* Set the background color of the button to green */
+            color: white; /* Set the text color of the button to white */
+            border: none; /* Remove the default border */
+            border-radius: 8px; /* Round the corners of the button */
+            cursor: pointer; /* Change the cursor to a pointer on hover */
+            transition: background-color 0.3s; /* Smoothly transition background color changes over 0.3 seconds */
+        }
+
+        /* Change the button's background color when hovered */
+        button:hover {
+            background-color: #388e3c; /* Darken the button's background color on hover */
+        }
+
+        /* Style the section that displays submitted data */
+        .submitted-data {
+            margin-top: 2rem; /* Add space above the submitted data section */
+            text-align: left; /* Align text to the left within this section */
+        }
+
+        /* Style the subheading in the submitted data section */
+        .submitted-data h2 {
+            font-size: 1.5rem; /* Set the font size for the subheading */
+            margin-bottom: 1rem; /* Add space below the subheading */
+        }
+
+        /* Style the paragraphs in the submitted data section */
+        .submitted-data p {
+            margin: 0.5rem 0; /* Add space above and below each paragraph */
+            font-size: 1rem; /* Set the font size of the text */
+            color: #000000; /* Set the text color to dark gray */
+        }
+
+        /* Style the strong text inside the submitted data section */
+        .submitted-data strong {
+            color: #4CAF50; /* Set the text color to green for emphasis */
+        }
+    </style>
+
+
+</head>
+<body>
+    <div class="container">
+        <h1>Grocery AI Assistant</h1>
+
+        {% if submitted %}
+        <div class="submitted-data">
+            <h2>Submitted Data</h2>
+            <p><strong>Budget:</strong> {{ budget }}</p>
+            <p><strong>Dietary Restrictions:</strong> {{ dietary_restrictions }}</p>
+            <p><strong>Favorite Foods:</strong> {{ favorite_foods|join:", " }}</p>
+        </div>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <label for="budget">Budget</label>
+            <input type="number" id="budget" name="budget" placeholder="Enter your budget for groceries">
+            
+         
+            <label for="dietary_restrictions">Dietary Restrictions</label>
+            <input type="text" id="dietary_restrictions" name="dietary_restrictions" placeholder="vegan, gluten-free">
+            
+  
+            <label for="favorite_foods">Favorite Foods</label>
+            <input type="text" id="favorite_foods" name="favorite_foods" placeholder="List your favorite foods, separated by commas">
+            
+            <button type="submit">Submit</button>
+           
+        </form>
+
+    </div>
+</body>
+
+</html>
+-->
