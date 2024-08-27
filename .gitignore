@@ -1,4 +1,15 @@
+# Ignore Django settings file
 AI_Grocery_Assistant/settings.py
+
+# Ignore virtual environment directory
 env/
-groceries/__pycache__/
+
+# Ignore Python bytecode files
 *.pyc
+
+# Ignore cache directories
+AI_Grocery_Assistant/__pycache__/
+groceries/__pycache__/
+
+# Ignore Django migrations
+groceries/migrations/
