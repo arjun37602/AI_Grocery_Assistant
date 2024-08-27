@@ -61,6 +61,8 @@ def generate_shopping_list(input_fields):
         f"Suggest alternatives if necessary to stay within budget."
     )
 
+
+
     response = model.generate_content(prompt)
 
     ai_response = response.text
@@ -68,13 +70,30 @@ def generate_shopping_list(input_fields):
     ai_response = ai_response.replace(
         "## Halal-Friendly Grocery List & Recipes for Pizza & Salad Lovers:", "")
     ai_response = ai_response.replace(" - ", "")  # Removing hyphens
-########
-    # If the response isn't already HTML, format it as such here
+
     formatted_response = ai_response.replace("\n", "<br>").replace(
-        "**", "<strong>").replace("__", "<em>")
+        "**", "<strong>").replace("__", "<em>").replace("##", "<strong>")
 
     print(formatted_response)
     return formatted_response
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ###############
 
