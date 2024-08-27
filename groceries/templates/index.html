@@ -1,28 +1,195 @@
-<!-- groceries/templates/home.html -->
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grocery Input Form</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f8f8;
+            color: #2c3e50;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #2980b9;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ecf0f1;
+        }
+
+        form p {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: 700;
+            margin-bottom: 5px;
+            display: block;
+            color: #2980b9;
+            font-size: 16px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #bdc3c7;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #3498db;
+        }
+
+        #submitted-data,
+        #ai-response-section {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ecf0f1;
+        }
+
+        #submitted-data h2,
+        #ai-response-section h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #2980b9;
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            text-align: center;
+        }
+
+        #ai-response p {
+            margin: 10px 0;
+            font-size: 18px; /* Increased font size */
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        #ai-response strong {
+            color: #2980b9;
+            font-weight: bold;
+            font-size: 18px; /* Increased font size for emphasis */
+        }
+
+        #ai-response em {
+            color: #3498db;
+            font-style: italic;
+            font-size: 18px; /* Increased font size for emphasis */
+        }
+
+        #ai-response ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        #ai-response ul li {
+            padding: 5px 0;
+            font-size: 18px; /* Increased font size */
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        /* Removed bullet points */
+        #ai-response ul li:before {
+            content: "";
+            padding-right: 8px;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var aiResponseSection = document.getElementById('ai-response-section');
+            if (aiResponseSection) {
+                aiResponseSection.style.display = 'block';
+            }
+        });
+    </script>
+
 </head>
 
 <body>
     <h1>Grocery Input Form</h1>
 
-    {% if submitted %}
-    <h2>Submitted Data</h2>
-    <p><strong>Budget:</strong> {{ budget }}</p>
-    <p><strong>Dietary Restrictions:</strong> {{ dietary_restrictions }}</p>
-    <p><strong>Favorite Foods:</strong> {{ favorite_foods|join:", " }}</p>
-    {% endif %}
-
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <p>
+            <label for="id_budget">Enter your budget for groceries:</label>
+            <input type="text" name="budget" id="id_budget" placeholder="Enter your budget">
+        </p>
+        <p>
+            <label for="id_dietary_restrictions">Dietary Restrictions (e.g., vegan, gluten-free):</label>
+            <input type="text" name="dietary_restrictions" id="id_dietary_restrictions" placeholder="e.g., vegan, gluten-free">
+        </p>
+        <p>
+            <label for="id_favorite_foods">List your favorite foods, separated by commas:</label>
+            <textarea name="favorite_foods" id="id_favorite_foods" placeholder="List your favorite foods, separated by commas"></textarea>
+        </p>
         <button type="submit">Submit</button>
     </form>
+
+    {% if submitted %}
+    <div id="submitted-data">
+        <h2>Submitted Data</h2>
+        <p><strong>Budget:</strong> {{ budget }}</p>
+        <p><strong>Dietary Restrictions:</strong> {{ dietary_restrictions }}</p>
+        <p><strong>Favorite Foods:</strong> {{ favorite_foods|join:", " }}</p>
+    </div>
+    {% endif %}
+
+    {% if ai_response %}
+    <div id="ai-response-section">
+        <h2>AI-Generated Shopping List and Recipes</h2>
+        <div id="ai-response">
+            {{ ai_response|safe }}
+        </div>
+    </div>
+    {% endif %}
 </body>
 
 </html>
+
