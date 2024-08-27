@@ -1,4 +1,4 @@
-settings.py
+AI_Grocery_Assistant/settings.py
 env/
 groceries/__pycache__/
 *.pyc
