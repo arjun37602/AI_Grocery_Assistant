@@ -1,0 +1,4 @@
+settings.py
+env/
+groceries/__pycache__/
+*.pyc
