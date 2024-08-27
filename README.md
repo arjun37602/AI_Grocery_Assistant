@@ -1,1 +1,3 @@
 # AI_Grocery_Assistant
+
+AI Grocery Assistant is a web-based Smart Grocery Shopping Assistant that allows users to input their grocery budget, dietary restrictions, and favorite foods. The AI generates a shopping list with cost estimates, suggests budget-friendly alternatives, tracks spending, and provides nutritional analysis of their shopping cart. It's a one stop shop for creating a fun healthy life that fits your budget!
